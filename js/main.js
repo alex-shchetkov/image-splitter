@@ -169,8 +169,7 @@ async function splitImages () {
 
                 for (const image of frames) {
                     if (image instanceof HTMLElement) {
-                        // document.body.appendChild(image);
-                        // console.log(image)
+                        ctx.clearRect(0, 0, size, size);
                         ctx.drawImage(image, x * size, y * size);
                     } else {
                         ctx.drawImage(image.getImage(), x * size, y * size);

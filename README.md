@@ -5,14 +5,9 @@ Upload an image, and it will save the square tiles into a zip file. If there are
 
 You can adjust the size of the square tiles, the prefix of the image files, and the delay in milliseconds between the frames of the gif (if applicable).
 
-## Examples
-<center> Still Image: </center>
-
-![Still Image Demo](example/image_demo.png)
-
-<center> Animated Gif: </center>
-
-![Gif Demo](example/gif_demo.png)
+## To Use locally
+`npm install http-server -g`
+`http-server`
 
 ## Libraries Used
 A big thanks to the creators of these libraries for their work. Without them, this project would not have been possible.
