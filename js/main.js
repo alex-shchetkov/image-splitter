@@ -18,7 +18,7 @@ let submit, fileInput, prefixInput, sizeInput, shrinkInput, delayLabel, delayInp
 let progress, timeTaken;
 
 const section = document.createElement('canvas');
-const ctx = section.getContext('2d');
+const ctx = section.getContext('2d', { willReadFrequently: true });
 
 function init () {
     txt = $('textarea');
@@ -80,7 +80,7 @@ function save () {
 
 function resize (img, w, h) {
     const resizerCanvas = document.createElement('canvas');
-    const resizerCtx = resizerCanvas.getContext('2d');
+    const resizerCtx = resizerCanvas.getContext('2d', { willReadFrequently: true });
     resizerCanvas.width = w;
     resizerCanvas.height = h;
     resizerCtx.drawImage(img, 0, 0, w, h);
@@ -172,6 +172,7 @@ async function splitImages () {
                         ctx.clearRect(0, 0, size, size);
                         ctx.drawImage(image, x * size, y * size);
                     } else {
+                        ctx.clearRect(0, 0, size, size);
                         ctx.drawImage(image.getImage(), x * size, y * size);
                     }
 
@@ -187,9 +188,9 @@ async function splitImages () {
                         }
 
                         if (numTiles > 50) {
-                            zip.file(`section${ Math.floor(done / 50) }/${ prefix }_${ -x }_${ -y }.gif`, blob);
+                            zip.file(`section${ Math.floor(done / 50) }/${ prefix }_${ -y*3-x+1 }.gif`, blob);
                         } else {
-                            zip.file(`${ prefix }_${ -x }_${ -y }.gif`, blob);
+                            zip.file(`${ prefix }_${ -y*3-x+1 }.gif`, blob);
                         }
 
                         const preview = document.createElement('img');
@@ -197,7 +198,7 @@ async function splitImages () {
                         preview.width = preview.height = previewSize;
                         q.push(preview);
 
-                        str += `:${ prefix }_${ -x }_${ -y }:`;
+                        str += `:${ prefix }_${ -y*3-x+1 }:`;
                         res();
                     })
                 });
