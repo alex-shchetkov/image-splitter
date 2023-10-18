@@ -153,7 +153,6 @@ async function splitImages () {
         const previewSize = Math.min(prev.offsetWidth / w, prev.offsetHeight / h);
 
         const queue = [];
-        ctx.fillStyle = '#36393F';
 
         for (let y = 0; y > -h; y--) {
             const q = [];
@@ -161,7 +160,8 @@ async function splitImages () {
             for (let x = 0; x > -w; x--) {
                 // Script path relative to index.html
                 const gif = new GIF({
-                    workerScript: 'js/gif.worker.js'
+                    workerScript: 'js/gif.worker.js',
+                    transparent: 'rgba(0,0,0,0)'
                 });
 
                 ctx.clearRect(0, 0, size, size);
