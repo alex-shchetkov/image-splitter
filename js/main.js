@@ -14,7 +14,7 @@ const VALID_EXTENSIONS = [
 ]
 
 let txt, previewDiv, prev, shrinkCheck, shrinkCross, fileInfo;
-let submit, fileInput, prefixInput, sizeInput, shrinkInput, delayLabel, delayInput, form, download;
+let submit, fileInput, prefixInput, rowInput, colInput, shrinkInput, delayLabel, delayInput, form, download;
 let progress, timeTaken;
 
 const section = document.createElement('canvas');
@@ -33,7 +33,9 @@ function init () {
     shrinkInput = $('input#shrink');
     delayInput = $('input#delay');
     fileInput = $('input#file');
-    sizeInput = $('input#size');
+    // sizeInput = $('input#size');
+    rowInput = $('input#rows');
+    colInput = $('input#cols');
     submit = $('input#submit');
     delayLabel = $('label[for="delay"]');
     download = $('a');
@@ -90,7 +92,8 @@ function resize (img, w, h) {
 async function splitImages () {
     if (!isValidFile(file)) return;
 
-    const size = +sizeInput.value;
+    const rows = +rowInput.value;
+    const cols = +colInput.value;
     submit.value = "Working...";
 
     form.removeEventListener('submit', splitImages);
@@ -102,7 +105,7 @@ async function splitImages () {
 
     let str = '';
     let done = 0;
-    let w, h, numTiles;
+    let w, h, numTiles, size;
     const prefix = (prefixInput.value || file.name.replace(/\.\w+$/, '')).replace(/\s+/g, '_').replace(/[^\w]/g, '');
     const zip = new JSZip();
     const startTime = Date.now();
@@ -131,6 +134,8 @@ async function splitImages () {
         const delay = +delayInput.value + 20;
 
         const img = frames[ 0 ].frameInfo;
+        size = Math.min(img.width/cols, img.height/rows);
+        section.width = section.height = size;
         w = Math.ceil(img.width / size);
         h = Math.ceil(img.height / size);
         numTiles = w * h;
